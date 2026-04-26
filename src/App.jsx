@@ -182,25 +182,7 @@ export default function App() {
         <p className="header__sub">From "The Clash of the Cultures: Investment vs. Speculation"</p>
       </header>
 
-      <div className="scene">
-        <div className="carousel" ref={carouselRef}>
-          {CARDS.map((card, i) => (
-            <div
-              key={i}
-              className={`carousel__card${activeIndex === i ? ' is-active' : ''}`}
-              data-index={i}
-              style={{ transform: `rotateY(${THETA * i}deg) translateZ(${R}px)` }}
-            >
-              <div className="card__num">{card.num}</div>
-              <div className="card__icon">{card.icon}</div>
-              <h3 className="card__title">{card.title}</h3>
-              <p className="card__body">{card.body}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <nav className="nav">
+      <div className="carousel-wrapper">
         <button
           className="nav__btn nav__btn--prev"
           aria-label="Previous rule"
@@ -211,15 +193,22 @@ export default function App() {
           </svg>
         </button>
 
-        <div className="nav__dots">
-          {CARDS.map((_, i) => (
-            <button
-              key={i}
-              className={`nav__dot${activeIndex === i ? ' is-active' : ''}`}
-              aria-label={`Go to rule ${i + 1}`}
-              onClick={() => { actionsRef.current.resetAutoRotate?.(); actionsRef.current.goTo?.(i) }}
-            />
-          ))}
+        <div className="scene">
+          <div className="carousel" ref={carouselRef}>
+            {CARDS.map((card, i) => (
+              <div
+                key={i}
+                className={`carousel__card${activeIndex === i ? ' is-active' : ''}`}
+                data-index={i}
+                style={{ transform: `rotateY(${THETA * i}deg) translateZ(${R}px)` }}
+              >
+                <div className="card__num">{card.num}</div>
+                <div className="card__icon">{card.icon}</div>
+                <h3 className="card__title">{card.title}</h3>
+                <p className="card__body">{card.body}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
         <button
@@ -231,7 +220,7 @@ export default function App() {
             <polyline points="9 6 15 12 9 18" />
           </svg>
         </button>
-      </nav>
+      </div>
 
       <footer className="footer">
         <p className="footer__quote">"The stock market is a giant distraction from the business of investing."</p>
