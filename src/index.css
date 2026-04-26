@@ -101,6 +101,34 @@ body {
   width: 100%;
 }
 
+/* --- Page background book image --- */
+.page-bg {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 50vw;
+  object-fit: contain;
+  object-position: right center;
+  pointer-events: none;
+  z-index: 0;
+  filter: brightness(0.45);
+  mask: linear-gradient(to left, rgba(255,255,255,0.75) 0%, transparent 80%);
+  opacity: 0.9;
+}
+
+/* Full-screen variant — fills the viewport, image dominates */
+.page-bg--top {
+  width: 100vw;
+  height: 100vh;
+  max-width: none;
+  object-fit: cover;
+  object-position: center top;
+  filter: brightness(0.3);
+  mask: linear-gradient(to bottom, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.15) 100%);
+  opacity: 0.7;
+}
+
 /* --- Background Glow --- */
 .bg-glow {
   position: fixed;

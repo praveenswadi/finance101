@@ -29,21 +29,28 @@ const WISDOMS = [
     path: '/bogle',
     badge: 'Investing',
     title: "Bogle's 10 Rules",
-    description: 'Ten timeless principles from the founder of Vanguard — the fundamentals of long-term investing.',
-    // TODO: replace with real extended copy
-    details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.',
+    description: 'Ten timeless principles from the founder of Vanguard.',
+    details: [
+      'Build a broadly diversified, low-cost portfolio without the risks of individual stocks, manager selection, or sector rotation.',
+      'Recognize that in the long run, business reality trumps market expectations.',
+      'Learn how to harness the magic of compounding returns while avoiding the tyranny of compounding costs.',
+    ],
     accent: '#c4a55a',
     icon: '📈',
+    image: '/bogle-investing-common-sense.jpg',
   },
   {
     path: '/index-card',
     badge: 'Personal Finance',
     title: 'The Index Card',
     description: 'Nine rules that fit on a single index card — everything you actually need to know about personal finance.',
-    // TODO: replace with real extended copy
-    details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque habitant morbi tristique senectus. Netus et malesuada fames ac turpis egestas volutpat.',
+    details: [
+      'Have the confidence to make your own financial decisions.',
+      'Be armed with a timeless set of guidelines you can turn to no matter what financial issues you face or how drastically the winds of financial change shift.',
+    ],
     accent: '#5aa5c4',
     icon: '📇',
+    image: '/the-index-card.jpg',
   },
 ]
 
@@ -117,12 +124,11 @@ export default function Home() {
               <h3 className="wisdom-title">{w.title}</h3>
               <span className="wisdom-icon">{w.icon}</span>
               <p className="wisdom-desc">{w.description}</p>
-              <p className="wisdom-details">{w.details}</p>
+              <ul className="wisdom-details">
+                {w.details.map((d, i) => <li key={i}>{d}</li>)}
+              </ul>
               <span className="wisdom-cta">Explore →</span>
-              <div
-                className="wisdom-bg"
-                style={{ background: `radial-gradient(circle at 80% 20%, ${w.accent}, transparent 70%)` }}
-              />
+              <img className="wisdom-bg" src={w.image} alt="" />
             </article>
           </li>
         ))}
