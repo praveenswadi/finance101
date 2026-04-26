@@ -21,7 +21,7 @@
   padding: 0;
   margin: 0;
   gap: var(--hw-gap);
-  height: clamp(300px, 45dvh, 480px);
+  height: clamp(360px, 52dvh, 560px);
   width: min(820px, calc(100% - 2rem));
   transition: grid-template-columns var(--hw-speed) var(--hw-easing);
   position: relative;
@@ -104,7 +104,7 @@
 
 /* ── Description ─────────────────────────────────── */
 .wisdom-desc {
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.5;
   color: var(--text-dim);
   max-width: 26ch;
@@ -115,7 +115,7 @@
 
 /* ── Details bullet list ─────────────────────────── */
 .wisdom-details {
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.55;
   color: var(--text-muted);
   max-width: 28ch;
@@ -200,7 +200,7 @@
   }
 
   .wisdom-item[data-active='true'] {
-    height: 320px;
+    height: 420px;
   }
 
   .wisdom-article {

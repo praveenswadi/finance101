@@ -89,14 +89,11 @@ export default function Home() {
       <div className="bg-glow bg-glow--1" />
       <div className="bg-glow bg-glow--2" />
 
-      <button className="theme-toggle" aria-label="Toggle theme" onClick={toggle}>
-        {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
-      </button>
-
       <header className="home-header">
-        <div className="badge">Financial Wisdom</div>
-        <h1 className="header__title">Choose Your <span>Wisdom</span></h1>
-        <p className="header__sub">Timeless principles, beautifully presented</p>
+        <h1 className="header__title">Explore Financial <span>Strategies</span></h1>
+        <button className="theme-toggle theme-toggle--inline" aria-label="Toggle theme" onClick={toggle}>
+          {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
+        </button>
       </header>
 
       <ul
