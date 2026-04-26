@@ -182,18 +182,25 @@
 
   .wisdom-item {
     min-width: 0;
-    height: 60px;
+    height: 56px;
     transition: height var(--hw-speed) var(--hw-easing), border-color 0.4s ease;
   }
 
   .wisdom-item[data-active='true'] {
-    height: 190px;
+    height: 320px;
   }
 
   .wisdom-article {
     width: 100%;
     padding-inline: 1.25rem;
+    padding-top: 0;
     padding-bottom: 1rem;
+  }
+
+  /* Push content below the horizontal title when expanded */
+  .wisdom-item[data-active='true'] .wisdom-article {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
   }
 
   .wisdom-title {
@@ -216,5 +223,10 @@
   .wisdom-cta {
     left: 1.25rem;
     bottom: 1rem;
+  }
+
+  /* Hide icon on mobile to save vertical space */
+  .wisdom-icon {
+    display: none;
   }
 }
