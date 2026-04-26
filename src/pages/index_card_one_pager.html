@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Index Card – Personal Finance Rules</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Reenie+Beanie&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #5b4a3f;
+    background-image:
+      radial-gradient(ellipse at 30% 20%, #6d5c4f 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, #4a3a2f 0%, transparent 60%);
+    padding: 20px;
+    font-family: 'Patrick Hand', cursive;
+  }
+
+  .cork-texture {
+    position: fixed;
+    inset: 0;
+    opacity: 0.08;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .card {
+    position: relative;
+    width: 720px;
+    max-width: 95vw;
+    background: #fffef5;
+    border-radius: 4px;
+    padding: 48px 52px 44px;
+    box-shadow:
+      0 2px 4px rgba(0,0,0,0.15),
+      0 8px 24px rgba(0,0,0,0.2),
+      0 20px 60px rgba(0,0,0,0.15),
+      inset 0 0 80px rgba(200,180,140,0.12);
+    transform: rotate(-0.8deg);
+    transition: transform 0.4s ease;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 4px;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23p)'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  /* Ruled lines */
+  .card::after {
+    content: '';
+    position: absolute;
+    top: 44px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 33px,
+      #c8daf0 33px,
+      #c8daf0 34px
+    );
+    opacity: 0.45;
+    pointer-events: none;
+    border-radius: 4px;
+  }
+
+  /* Red margin line */
+  .margin-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 68px;
+    width: 2px;
+    background: #e8a0a0;
+    opacity: 0.5;
+    z-index: 1;
+  }
+
+  /* Pushpin */
+  .pin {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+  }
+  .pin-head {
+    width: 28px;
+    height: 28px;
+    background: radial-gradient(circle at 40% 35%, #ff6b5b, #cc3325);
+    border-radius: 50%;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3), inset 0 -2px 4px rgba(0,0,0,0.2);
+    position: relative;
+  }
+  .pin-head::after {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 9px;
+    width: 6px;
+    height: 4px;
+    background: rgba(255,255,255,0.45);
+    border-radius: 50%;
+    transform: rotate(-20deg);
+  }
+
+  .title {
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    font-size: 32px;
+    color: #1a3a5c;
+    text-align: center;
+    margin-bottom: 6px;
+    position: relative;
+    z-index: 2;
+    letter-spacing: 0.5px;
+  }
+
+  .subtitle {
+    font-family: 'Reenie Beanie', cursive;
+    font-size: 22px;
+    color: #8a7a6a;
+    text-align: center;
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .rules {
+    list-style: none;
+    position: relative;
+    z-index: 2;
+  }
+
+  .rule {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 16px;
+    padding-left: 12px;
+    opacity: 0;
+    animation: writeIn 0.4s ease forwards;
+  }
+
+  .rule:nth-child(1) { animation-delay: 0.2s; }
+  .rule:nth-child(2) { animation-delay: 0.35s; }
+  .rule:nth-child(3) { animation-delay: 0.5s; }
+  .rule:nth-child(4) { animation-delay: 0.65s; }
+  .rule:nth-child(5) { animation-delay: 0.8s; }
+  .rule:nth-child(6) { animation-delay: 0.95s; }
+  .rule:nth-child(7) { animation-delay: 1.1s; }
+  .rule:nth-child(8) { animation-delay: 1.25s; }
+  .rule:nth-child(9) { animation-delay: 1.4s; }
+
+  @keyframes writeIn {
+    from { opacity: 0; transform: translateX(-8px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .rule-number {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    background: #1a3a5c;
+    color: #fffef5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    font-size: 17px;
+    margin-top: 1px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+
+  .rule-content {
+    flex: 1;
+  }
+
+  .rule-text {
+    font-family: 'Caveat', cursive;
+    font-size: 21px;
+    color: #2c2c2c;
+    line-height: 1.3;
+    font-weight: 600;
+  }
+
+  .rule-icon {
+    display: inline-block;
+    margin-right: 6px;
+    font-size: 18px;
+  }
+
+  .rule-note {
+    font-family: 'Reenie Beanie', cursive;
+    font-size: 18px;
+    color: #b0522a;
+    margin-top: 1px;
+    padding-left: 2px;
+  }
+
+  /* Underline scribble effect on key phrases */
+  .highlight {
+    position: relative;
+    white-space: nowrap;
+  }
+  .highlight::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 3px;
+    background: #f0c040;
+    opacity: 0.55;
+    border-radius: 2px;
+    transform: rotate(-0.5deg);
+  }
+
+  .circle-highlight {
+    position: relative;
+  }
+  .circle-highlight::before {
+    content: '';
+    position: absolute;
+    inset: -4px -8px;
+    border: 2px solid #cc3325;
+    border-radius: 50%;
+    opacity: 0.4;
+    transform: rotate(-2deg);
+  }
+
+  /* Coffee stain */
+  .coffee-stain {
+    position: absolute;
+    bottom: 30px;
+    right: 35px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 3px solid rgba(140,100,60,0.12);
+    z-index: 2;
+    transform: rotate(15deg);
+  }
+  .coffee-stain::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 2px solid rgba(140,100,60,0.06);
+  }
+
+  /* Tape strips */
+  .tape {
+    position: absolute;
+    width: 80px;
+    height: 28px;
+    background: rgba(255,255,220,0.55);
+    z-index: 3;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  .tape-tl {
+    top: -8px;
+    left: 30px;
+    transform: rotate(-18deg);
+  }
+  .tape-br {
+    bottom: -6px;
+    right: 40px;
+    transform: rotate(10deg);
+  }
+
+  /* Star doodle */
+  .star-doodle {
+    position: absolute;
+    top: 58px;
+    right: 30px;
+    z-index: 2;
+    opacity: 0.6;
+  }
+
+  .footer-note {
+    font-family: 'Reenie Beanie', cursive;
+    font-size: 19px;
+    color: #8a7a6a;
+    text-align: right;
+    margin-top: 20px;
+    position: relative;
+    z-index: 2;
+    padding-right: 85px;
+  }
+</style>
+</head>
+<body>
+
+<div class="cork-texture"></div>
+
+<div class="card">
+  <div class="pin"><div class="pin-head"></div></div>
+  <div class="tape tape-tl"></div>
+  <div class="tape tape-br"></div>
+  <div class="margin-line"></div>
+
+  <!-- Star doodle -->
+  <svg class="star-doodle" width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="#d4a840" stroke-width="1.5" stroke-linecap="round">
+    <path d="M18 4 L20 14 L30 14 L22 20 L25 30 L18 24 L11 30 L14 20 L6 14 L16 14 Z" />
+  </svg>
+
+  <div class="title">The Index Card</div>
+  <div class="subtitle">All the financial advice you'll ever need</div>
+
+  <ul class="rules">
+    <li class="rule">
+      <div class="rule-number">1</div>
+      <div class="rule-content">
+        <div class="rule-text"><span class="rule-icon">💰</span> Save <span class="highlight">10–20%</span> of Your Income</div>
+        <div class="rule-note">↳ pay yourself first!</div>
+      </div>
+    </li>
+    <li class="rule">
+      <div class="rule-number">2</div>
+      <div class="rule-content">
+        <div class="rule-text"><span class="rule-icon">💳</span> Pay Credit Cards in <span class="highlight">Full Every Month</span></div>
+      </div>
+    </li>
+    <li class="rule">
+      <div class="rule-number">3</div>
+      <div class="rule-content">
+        <div class="rule-text"><span class="rule-icon">📈</span> Max Out Your <span class="highlight">401(k)</span> & Tax-Advantaged Accounts</div>
+      </div>
+    </li>
+    <li class="rule">
+      <div class="rule-number">4</div>
+      <div class="rule-content">
+        <div class="rule-text"><span class="rule-icon">🚫</span> <span class="circle-highlight">Never</span> Buy or Sell Individual Stocks</div>
+      </div>
+    </li>
+    <li class="rule">
+      <div class="rule-number">5</div>
+      <div class="rule-content">
+        <div class="rule-text"><span class="rule-icon">🧺</span> Buy Low-Cost <span class="highlight">Index Funds</span> & ETFs</div>
+        <div class="rule-note">↳ diversify, keep fees low</div>
+      </div>
+    </li>
+    <li class="rule">
+      <div class="rule-number">6</div>
+      <div class="rule-content">
+        <div class="rule-text"><span class="rule-icon">🤝</span> Demand a <span class="highlight">Fiduciary</span> Financial Advisor</div>
+      </div>
+    </li>
+    <li class="rule">
+      <div class="rule-number">7</div>
+      <div class="rule-content">
+        <div class="rule-text"><span class="rule-icon">🏠</span> Buy a Home When You're <span class="highlight">Ready</span></div>
+        <div class="rule-note">↳ not because someone said so</div>
+      </div>
+    </li>
+    <li class="rule">
+      <div class="rule-number">8</div>
+      <div class="rule-content">
+        <div class="rule-text"><span class="rule-icon">🛡️</span> Get Proper <span class="highlight">Insurance</span> Coverage</div>
+      </div>
+    </li>
+    <li class="rule">
+      <div class="rule-number">9</div>
+      <div class="rule-content">
+        <div class="rule-text"><span class="rule-icon">🌐</span> Support the <span class="highlight">Social Safety Net</span></div>
+      </div>
+    </li>
+  </ul>
+
+  <div class="footer-note">— Olen & Pollack</div>
+
+  <div class="coffee-stain"></div>
+</div>
+
+</body>
+</html>

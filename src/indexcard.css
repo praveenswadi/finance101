@@ -1,0 +1,135 @@
+/* ── Index Card — uses the same CSS variables as the carousel ── */
+
+.ic-container {
+  width: 100%;
+  max-width: 580px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 24px;
+  padding: 8px 0;
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+
+/* Gold accent strip at top, same as carousel cards */
+.ic-container::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.8;
+}
+
+/* Glass reflection */
+.ic-container::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 40%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+/* ── Each rule row ──────────────────────────────── */
+.ic-rule {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 28px;
+  border-bottom: 1px solid var(--card-border);
+  opacity: 0;
+  animation: ic-fade-in 0.35s ease forwards;
+  transition: background-color 0.2s ease;
+}
+.ic-rule:last-child {
+  border-bottom: none;
+}
+.ic-rule:hover {
+  background: rgba(196, 165, 90, 0.04);
+}
+
+@keyframes ic-fade-in {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ── Left column: number + icon ─────────────────── */
+.ic-rule-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  width: 36px;
+  padding-top: 2px;
+}
+
+.ic-num {
+  font-family: 'Caveat', cursive;
+  font-weight: 700;
+  font-size: 21px;
+  color: var(--gold);
+  opacity: 0.75;
+  line-height: 1;
+}
+
+.ic-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* ── Right column: text + note ──────────────────── */
+.ic-rule-right {
+  flex: 1;
+}
+
+.ic-rule-text {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+/* Highlighted phrases — gold underline */
+.ic-rule-text em {
+  font-style: normal;
+  position: relative;
+  white-space: nowrap;
+}
+.ic-rule-text em::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 2px;
+  background: var(--gold);
+  opacity: 0.5;
+  border-radius: 1px;
+}
+
+/* "Never" — red + bold */
+.ic-rule-text strong {
+  font-weight: 700;
+  color: #e05252;
+}
+
+.ic-rule-note {
+  font-family: 'Caveat', cursive;
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+/* ── Mobile ──────────────────────────────────────── */
+@media (max-width: 480px) {
+  .ic-rule {
+    padding: 14px 18px;
+    gap: 12px;
+  }
+  .ic-rule-text { font-size: 19px; }
+  .ic-num       { font-size: 19px; }
+  .ic-icon      { font-size: 18px; }
+}
