@@ -67,11 +67,11 @@
 }
 
 .ic-num {
-  font-family: 'Fraunces', serif;
-  font-weight: 900;
-  font-size: 16px;
+  font-family: 'Caveat', cursive;
+  font-weight: 700;
+  font-size: 18px;
   color: var(--gold);
-  opacity: 0.65;
+  opacity: 0.75;
   line-height: 1;
 }
 
@@ -86,10 +86,11 @@
 }
 
 .ic-rule-text {
-  font-size: 15px;
-  font-weight: 500;
+  font-family: 'Caveat', cursive;
+  font-size: 19px;
+  font-weight: 600;
   color: var(--text);
-  line-height: 1.5;
+  line-height: 1.45;
 }
 
 /* Highlighted phrases — gold underline */
@@ -115,10 +116,11 @@
 }
 
 .ic-rule-note {
-  font-size: 12px;
+  font-family: 'Caveat', cursive;
+  font-size: 15px;
+  font-weight: 400;
   color: var(--text-dim);
-  margin-top: 4px;
-  font-style: italic;
+  margin-top: 2px;
 }
 
 /* ── Mobile ──────────────────────────────────────── */
@@ -127,7 +129,7 @@
     padding: 14px 18px;
     gap: 12px;
   }
-  .ic-rule-text { font-size: 14px; }
-  .ic-num       { font-size: 14px; }
+  .ic-rule-text { font-size: 17px; }
+  .ic-num       { font-size: 16px; }
   .ic-icon      { font-size: 18px; }
 }
