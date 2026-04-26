@@ -90,7 +90,7 @@
   font-size: 22px;
   font-weight: 600;
   color: var(--text);
-  line-height: 1.4;
+  line-height: 1.3;
 }
 
 /* Highlighted phrases — gold underline */
@@ -109,10 +109,10 @@
   border-radius: 1px;
 }
 
-/* Circled emphasis — gold color + weight */
+/* "Never" — red + bold */
 .ic-rule-text strong {
   font-weight: 700;
-  color: var(--gold);
+  color: #e05252;
 }
 
 .ic-rule-note {
