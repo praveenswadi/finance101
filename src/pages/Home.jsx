@@ -54,9 +54,15 @@ function getColumns(active, total) {
 export default function Home() {
   const { theme, toggle } = useTheme()
   const navigate = useNavigate()
-  const [activeIndex, setActiveIndex] = useState(0)
+  const [activeIndex, setActiveIndex] = useState(
+    () => Number(sessionStorage.getItem('wisdomActiveIndex') ?? 0)
+  )
   const listRef = useRef(null)
   const [articleWidth, setArticleWidth] = useState(400)
+
+  useEffect(() => {
+    sessionStorage.setItem('wisdomActiveIndex', activeIndex)
+  }, [activeIndex])
 
   const syncArticleWidth = useCallback(() => {
     if (!listRef.current) return
@@ -102,7 +108,7 @@ export default function Home() {
             data-active={String(i === activeIndex)}
             className="wisdom-item"
             style={{ '--item-accent': w.accent }}
-            onClick={() => navigate(w.path)}
+            onClick={() => i === activeIndex ? navigate(w.path) : setActiveIndex(i)}
           >
             <article
               className="wisdom-article"
