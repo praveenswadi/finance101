@@ -1,0 +1,463 @@
+/* ============================================
+   BOGLE'S 10 RULES — 3D CAROUSEL
+   ============================================ */
+
+/* --- Reset & Base --- */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ─── Dark theme (default) ─────────────────── */
+:root {
+  /* Unitless — read by JS to set the 3D radius */
+  --carousel-radius: 480;
+
+  --gold:         #c4a55a;
+  --gold-dim:     rgba(196, 165, 90, 0.35);
+  --gold-glow:    rgba(196, 165, 90, 0.12);
+
+  --bg:           #0a0a0a;
+  --surface:      #111111;
+  --card-bg:      rgba(255, 255, 255, 0.05);
+  --card-border:  rgba(255, 255, 255, 0.12);
+  --text:         #f0ece0;
+  --text-dim:     rgba(255, 255, 255, 0.72);   /* was 0.4 — lifted for readability */
+  --text-muted:   rgba(255, 255, 255, 0.45);   /* was 0.2 — lifted for readability */
+
+  --btn-bg:       rgba(255, 255, 255, 0.06);
+  --btn-border:   rgba(255, 255, 255, 0.15);
+  --btn-hover-bg: rgba(255, 255, 255, 0.12);
+  --dot-bg:       rgba(255, 255, 255, 0.25);
+  --dot-hover-bg: rgba(255, 255, 255, 0.45);
+
+  --footer-quote: rgba(255, 255, 255, 0.55);
+  --glow-1: radial-gradient(circle, var(--gold-glow) 0%, transparent 65%);
+  --glow-2: radial-gradient(circle, rgba(90,130,196,0.07) 0%, transparent 65%);
+
+  /* Card accent colors */
+  --accent-1: #c4a55a;
+  --accent-2: #5aa5c4;
+  --accent-3: #a5c45a;
+  --accent-4: #c45a8a;
+  --accent-5: #c4a55a;
+  --accent-6: #5ac4a5;
+  --accent-7: #8a5ac4;
+  --accent-8: #c47a5a;
+  --accent-9: #5a7ac4;
+  --accent-10:#c4a55a;
+}
+
+/* ─── Light theme ──────────────────────────── */
+[data-theme="light"] {
+  --gold-glow:    rgba(196, 165, 90, 0.25);
+
+  --bg:           #f5f1e8;
+  --surface:      #ede9df;
+  --card-bg:      rgba(255, 255, 255, 0.82);
+  --card-border:  rgba(0, 0, 0, 0.1);
+  --text:         #1a1611;
+  --text-dim:     rgba(26, 22, 17, 0.72);
+  --text-muted:   rgba(26, 22, 17, 0.45);
+
+  --btn-bg:       rgba(0, 0, 0, 0.05);
+  --btn-border:   rgba(0, 0, 0, 0.15);
+  --btn-hover-bg: rgba(0, 0, 0, 0.1);
+  --dot-bg:       rgba(0, 0, 0, 0.2);
+  --dot-hover-bg: rgba(0, 0, 0, 0.38);
+
+  --footer-quote: rgba(26, 22, 17, 0.5);
+  --glow-1: radial-gradient(circle, rgba(196, 165, 90, 0.22) 0%, transparent 65%);
+  --glow-2: radial-gradient(circle, rgba(90,130,196,0.1) 0%, transparent 65%);
+}
+
+html {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  position: relative;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 30px 20px;
+  width: 100%;
+}
+
+/* --- Background Glow --- */
+.bg-glow {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+.bg-glow--1 {
+  top: -15%;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  background: var(--glow-1);
+}
+.bg-glow--2 {
+  bottom: -20%;
+  left: -10%;
+  width: 500px;
+  height: 500px;
+  background: var(--glow-2);
+}
+
+/* --- Theme toggle --- */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--btn-border);
+  background: var(--btn-bg);
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  transition: all 0.25s ease;
+}
+.theme-toggle:hover {
+  background: var(--btn-hover-bg);
+  border-color: var(--gold-dim);
+  color: var(--gold);
+  transform: scale(1.08);
+}
+.theme-toggle:active {
+  transform: scale(0.94);
+}
+
+/* --- Header --- */
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 2;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--gold);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  border: 1px solid var(--gold-dim);
+  padding: 5px 18px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+}
+
+.header__title {
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-size: clamp(28px, 5vw, 42px);
+  color: var(--text);
+  line-height: 1.15;
+  margin-bottom: 6px;
+}
+.header__title span {
+  color: var(--gold);
+}
+
+.header__sub {
+  font-size: 14px;
+  color: var(--text-dim);
+  font-weight: 300;
+  letter-spacing: 0.5px;
+}
+
+/* --- 3D Scene --- */
+.scene {
+  width: 100%;
+  max-width: 340px;
+  height: 340px;
+  perspective: 1200px;
+  position: relative;
+  z-index: 2;
+  margin: 0 auto;
+}
+
+.carousel {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Cards --- */
+.carousel__card {
+  position: absolute;
+  width: 280px;
+  height: 320px;
+  left: 50%;
+  top: 50%;
+  margin-left: -140px;
+  margin-top: -160px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 18px;
+  padding: 28px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  backface-visibility: hidden;
+  transition: box-shadow 0.4s ease, border-color 0.4s ease, background-color 0.35s ease;
+  overflow: hidden;
+}
+
+/* Accent glow strip at top */
+.carousel__card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--card-accent, var(--gold)), transparent);
+  opacity: 0.8;
+}
+
+/* Glass reflection */
+.carousel__card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, transparent 100%);
+  pointer-events: none;
+  border-radius: 18px 18px 0 0;
+}
+
+/* Per-card accent */
+.carousel__card[data-index="0"] { --card-accent: var(--accent-1); }
+.carousel__card[data-index="1"] { --card-accent: var(--accent-2); }
+.carousel__card[data-index="2"] { --card-accent: var(--accent-3); }
+.carousel__card[data-index="3"] { --card-accent: var(--accent-4); }
+.carousel__card[data-index="4"] { --card-accent: var(--accent-5); }
+.carousel__card[data-index="5"] { --card-accent: var(--accent-6); }
+.carousel__card[data-index="6"] { --card-accent: var(--accent-7); }
+.carousel__card[data-index="7"] { --card-accent: var(--accent-8); }
+.carousel__card[data-index="8"] { --card-accent: var(--accent-9); }
+.carousel__card[data-index="9"] { --card-accent: var(--accent-10); }
+
+/* Active card highlight */
+.carousel__card.is-active {
+  border-color: rgba(196,165,90,0.3);
+  box-shadow:
+    0 0 40px rgba(196,165,90,0.1),
+    0 20px 60px rgba(0,0,0,0.25);
+}
+[data-theme="light"] .carousel__card.is-active {
+  box-shadow:
+    0 0 40px rgba(196,165,90,0.15),
+    0 20px 60px rgba(0,0,0,0.08);
+}
+
+.card__num {
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-size: 32px;
+  color: var(--card-accent, var(--gold));
+  opacity: 0.6;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+[data-theme="light"] .card__num {
+  opacity: 0.75;
+}
+
+.card__icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.card__title {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--text);
+  line-height: 1.3;
+  margin-bottom: 10px;
+}
+
+.card__body {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  font-weight: 300;
+  flex: 1;
+}
+
+/* --- Navigation --- */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 32px;
+  position: relative;
+  z-index: 3;
+}
+
+.nav__btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--btn-border);
+  background: var(--btn-bg);
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+}
+.nav__btn:hover {
+  background: var(--btn-hover-bg);
+  border-color: var(--gold-dim);
+  color: var(--gold);
+  transform: scale(1.08);
+}
+.nav__btn:active {
+  transform: scale(0.95);
+}
+
+.nav__dots {
+  display: flex;
+  gap: 8px;
+}
+
+.nav__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--dot-bg);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  padding: 0;
+}
+.nav__dot:hover {
+  background: var(--dot-hover-bg);
+}
+.nav__dot.is-active {
+  background: var(--gold);
+  box-shadow: 0 0 8px rgba(196,165,90,0.45);
+  transform: scale(1.3);
+}
+
+/* --- Footer --- */
+.footer {
+  text-align: center;
+  margin-top: 36px;
+  position: relative;
+  z-index: 2;
+  max-width: 420px;
+}
+
+.footer__quote {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--footer-quote);
+  line-height: 1.5;
+}
+
+.footer__attr {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 6px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.footer__credit {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 16px;
+}
+.footer__credit a {
+  color: var(--gold);
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+.footer__credit a:hover {
+  opacity: 1;
+}
+
+/* --- Ground Reflection --- */
+.ground-reflection {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 180px;
+  background: linear-gradient(0deg, rgba(196,165,90,0.04) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* --- Keyboard hint --- */
+@media (min-width: 768px) {
+  .nav::after {
+    content: '← → arrow keys';
+    position: absolute;
+    bottom: -26px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+  }
+}
+
+/* --- Mobile tweaks --- */
+@media (max-width: 480px) {
+  /* R=430 gives ~25px gap between active and adjacent cards
+     and leaves ~40px of each peeking in from the viewport edges */
+  :root { --carousel-radius: 430; }
+
+  .scene {
+    max-width: 280px;
+    height: 320px;
+  }
+  .carousel__card {
+    width: 240px;
+    height: 290px;
+    margin-left: -120px;
+    margin-top: -145px;
+    padding: 22px 20px 20px;
+  }
+  .card__title { font-size: 17px; }
+  .card__body  { font-size: 13px; }
+  .card__num   { font-size: 26px; }
+  .card__icon  { font-size: 26px; margin-bottom: 8px; }
+}
