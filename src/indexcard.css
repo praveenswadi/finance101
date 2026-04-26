@@ -1,257 +1,98 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Reenie+Beanie&family=Patrick+Hand&display=swap');
+/* ── Index Card — uses the same CSS variables as the carousel ── */
 
-/* ── Full-page wrapper ─────────────────────────── */
-.ic-page {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-  background: #5b4a3f;
-  background-image:
-    radial-gradient(ellipse at 30% 20%, #6d5c4f 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 80%, #4a3a2f 0%, transparent 60%);
-  font-family: 'Patrick Hand', cursive;
+.ic-container {
+  width: 100%;
+  max-width: 580px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 24px;
+  padding: 8px 0;
   position: relative;
-  user-select: none;
+  z-index: 2;
+  overflow: hidden;
 }
 
-[data-theme="light"] .ic-page {
-  background: #7a6555;
-  background-image:
-    radial-gradient(ellipse at 30% 20%, #8d7565 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 80%, #6a5545 0%, transparent 60%);
-}
-
-/* Cork texture overlay */
-.cork-texture {
-  position: fixed;
-  inset: 0;
-  opacity: 0.08;
-  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ── Theme toggle override for cork background ─── */
-.ic-theme-toggle {
-  border-color: rgba(255,255,255,0.25) !important;
-  background: rgba(255,255,255,0.1) !important;
-  color: #fffef5 !important;
-}
-.ic-theme-toggle:hover {
-  background: rgba(255,255,255,0.2) !important;
-  color: #fffef5 !important;
-}
-
-/* ── The notecard ──────────────────────────────── */
-.ic-card {
-  position: relative;
-  width: 720px;
-  max-width: 95vw;
-  background: #fffef5;
-  border-radius: 4px;
-  padding: 48px 52px 44px;
-  box-shadow:
-    0 2px 4px rgba(0,0,0,0.15),
-    0 8px 24px rgba(0,0,0,0.2),
-    0 20px 60px rgba(0,0,0,0.15),
-    inset 0 0 80px rgba(200,180,140,0.12);
-  transform: rotate(-0.8deg);
-  z-index: 1;
-}
-
-/* Paper texture */
-.ic-card::before {
+/* Gold accent strip at top, same as carousel cards */
+.ic-container::before {
   content: '';
   position: absolute;
-  inset: 0;
-  border-radius: 4px;
-  opacity: 0.04;
-  background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23p)'/%3E%3C/svg%3E");
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.8;
+}
+
+/* Glass reflection */
+.ic-container::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 40%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%);
   pointer-events: none;
 }
 
-/* Ruled lines */
-.ic-card::after {
-  content: '';
-  position: absolute;
-  top: 44px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent,
-    transparent 33px,
-    #c8daf0 33px,
-    #c8daf0 34px
-  );
-  opacity: 0.45;
-  pointer-events: none;
-  border-radius: 4px;
-}
-
-/* Red margin line */
-.ic-margin-line {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 68px;
-  width: 2px;
-  background: #e8a0a0;
-  opacity: 0.5;
-  z-index: 1;
-}
-
-/* Pushpin */
-.ic-pin {
-  position: absolute;
-  top: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-}
-.ic-pin-head {
-  width: 28px;
-  height: 28px;
-  background: radial-gradient(circle at 40% 35%, #ff6b5b, #cc3325);
-  border-radius: 50%;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.3), inset 0 -2px 4px rgba(0,0,0,0.2);
-  position: relative;
-}
-.ic-pin-head::after {
-  content: '';
-  position: absolute;
-  top: 6px;
-  left: 9px;
-  width: 6px;
-  height: 4px;
-  background: rgba(255,255,255,0.45);
-  border-radius: 50%;
-  transform: rotate(-20deg);
-}
-
-/* Tape strips */
-.ic-tape {
-  position: absolute;
-  width: 80px;
-  height: 28px;
-  background: rgba(255,255,220,0.55);
-  z-index: 3;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-}
-.ic-tape-tl { top: -8px; left: 30px; transform: rotate(-18deg); }
-.ic-tape-br { bottom: -6px; right: 40px; transform: rotate(10deg); }
-
-/* Star doodle */
-.ic-star {
-  position: absolute;
-  top: 58px;
-  right: 30px;
-  z-index: 2;
-  opacity: 0.6;
-}
-
-/* Coffee stain */
-.ic-coffee-stain {
-  position: absolute;
-  bottom: 30px;
-  right: 35px;
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  border: 3px solid rgba(140,100,60,0.12);
-  z-index: 2;
-  transform: rotate(15deg);
-}
-.ic-coffee-stain::after {
-  content: '';
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  border: 2px solid rgba(140,100,60,0.06);
-}
-
-/* ── Typography ────────────────────────────────── */
-.ic-title {
-  font-family: 'Caveat', cursive;
-  font-weight: 700;
-  font-size: 32px;
-  color: #1a3a5c;
-  text-align: center;
-  margin-bottom: 6px;
-  position: relative;
-  z-index: 2;
-  letter-spacing: 0.5px;
-}
-
-.ic-subtitle {
-  font-family: 'Reenie Beanie', cursive;
-  font-size: 22px;
-  color: #8a7a6a;
-  text-align: center;
-  margin-bottom: 28px;
-  position: relative;
-  z-index: 2;
-}
-
-/* ── Rules list ────────────────────────────────── */
-.ic-rules {
-  list-style: none;
-  position: relative;
-  z-index: 2;
-}
-
+/* ── Each rule row ──────────────────────────────── */
 .ic-rule {
   display: flex;
   align-items: flex-start;
-  gap: 14px;
-  margin-bottom: 16px;
-  padding-left: 12px;
+  gap: 16px;
+  padding: 18px 28px;
+  border-bottom: 1px solid var(--card-border);
   opacity: 0;
-  animation: ic-write-in 0.4s ease forwards;
+  animation: ic-fade-in 0.35s ease forwards;
+  transition: background-color 0.2s ease;
+}
+.ic-rule:last-child {
+  border-bottom: none;
+}
+.ic-rule:hover {
+  background: rgba(196, 165, 90, 0.04);
 }
 
-@keyframes ic-write-in {
-  from { opacity: 0; transform: translateX(-8px); }
+@keyframes ic-fade-in {
+  from { opacity: 0; transform: translateX(-10px); }
   to   { opacity: 1; transform: translateX(0); }
 }
 
-.ic-rule-number {
-  flex-shrink: 0;
-  width: 30px;
-  height: 30px;
-  background: #1a3a5c;
-  color: #fffef5;
-  border-radius: 50%;
+/* ── Left column: number + icon ─────────────────── */
+.ic-rule-left {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-family: 'Caveat', cursive;
-  font-weight: 700;
-  font-size: 17px;
-  margin-top: 1px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  gap: 4px;
+  flex-shrink: 0;
+  width: 36px;
+  padding-top: 2px;
 }
 
-.ic-rule-content { flex: 1; }
+.ic-num {
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-size: 16px;
+  color: var(--gold);
+  opacity: 0.65;
+  line-height: 1;
+}
+
+.ic-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* ── Right column: text + note ──────────────────── */
+.ic-rule-right {
+  flex: 1;
+}
 
 .ic-rule-text {
-  font-family: 'Caveat', cursive;
-  font-size: 21px;
-  color: #2c2c2c;
-  line-height: 1.3;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.5;
 }
 
-.ic-rule-icon {
-  display: inline-block;
-  margin-right: 6px;
-  font-size: 18px;
-}
-
-/* Italic = highlighted phrase */
+/* Highlighted phrases — gold underline */
 .ic-rule-text em {
   font-style: normal;
   position: relative;
@@ -260,57 +101,33 @@
 .ic-rule-text em::after {
   content: '';
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -1px;
-  height: 3px;
-  background: #f0c040;
-  opacity: 0.55;
-  border-radius: 2px;
-  transform: rotate(-0.5deg);
+  left: 0; right: 0; bottom: -1px;
+  height: 2px;
+  background: var(--gold);
+  opacity: 0.5;
+  border-radius: 1px;
 }
 
-/* Bold = circled emphasis */
+/* Circled emphasis — gold color + weight */
 .ic-rule-text strong {
   font-weight: 700;
-  position: relative;
-}
-.ic-rule-text strong::before {
-  content: '';
-  position: absolute;
-  inset: -4px -8px;
-  border: 2px solid #cc3325;
-  border-radius: 50%;
-  opacity: 0.4;
-  transform: rotate(-2deg);
+  color: var(--gold);
 }
 
 .ic-rule-note {
-  font-family: 'Reenie Beanie', cursive;
-  font-size: 18px;
-  color: #b0522a;
-  margin-top: 1px;
-  padding-left: 2px;
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 4px;
+  font-style: italic;
 }
 
-/* ── Footer ────────────────────────────────────── */
-.ic-footer-note {
-  font-family: 'Reenie Beanie', cursive;
-  font-size: 19px;
-  color: #8a7a6a;
-  text-align: right;
-  margin-top: 20px;
-  position: relative;
-  z-index: 2;
-  padding-right: 85px;
-}
-
-/* ── Mobile ────────────────────────────────────── */
-@media (max-width: 600px) {
-  .ic-card {
-    padding: 36px 24px 32px;
+/* ── Mobile ──────────────────────────────────────── */
+@media (max-width: 480px) {
+  .ic-rule {
+    padding: 14px 18px;
+    gap: 12px;
   }
-  .ic-title { font-size: 26px; }
-  .ic-rule-text { font-size: 18px; }
-  .ic-margin-line { left: 44px; }
+  .ic-rule-text { font-size: 14px; }
+  .ic-num       { font-size: 14px; }
+  .ic-icon      { font-size: 18px; }
 }
