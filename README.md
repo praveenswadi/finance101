@@ -1,13 +1,15 @@
 # Finance 101
 
-An interactive 3D carousel presenting **John Bogle's 10 Rules of Investing**, built with React + Vite. Deployable on Vercel in one click.
+An interactive collection of financial wisdom, built with React + Vite. Deployable on Vercel in one click.
 
 ## Features
 
-- 3D rotating carousel with smooth wrap-around (no 300° snap on 10 → 1)
-- Auto-advances on a randomised 3–4 second interval
+- Animated hover-disclosure home screen — each wisdom expands on hover
+- 3D rotating carousel for Bogle's 10 Rules of Investing
+- Index Card page presenting Olen & Pollack's nine personal finance rules
+- Auto-advances on a randomised 3–4 second interval (Bogle carousel)
 - Navigate via arrow buttons, keyboard ← →, drag/swipe, or dot indicators
-- Responsive — adjacent cards peek in from the sides on mobile
+- Responsive — stacks vertically on mobile
 - Light / dark theme toggle
 
 ## Stack
@@ -34,5 +36,7 @@ Connect this repository in the Vercel dashboard. Vercel auto-detects Vite and ru
 
 ## Credits
 
-- UI concept by [hoanghien0410](https://codepen.io/hoanghien0410/pen/MMPaqm) on CodePen
+- Home page hover-disclosure accordion by [jh3y](https://codepen.io/jh3y) on CodePen
+- Bogle carousel UI concept by [hoanghien0410](https://codepen.io/hoanghien0410/pen/MMPaqm) on CodePen
 - Investing rules from *The Clash of the Cultures* by John C. Bogle
+- Personal finance rules from *The Index Card* by Helaine Olen & Harold Pollack

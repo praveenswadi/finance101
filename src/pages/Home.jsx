@@ -1,5 +1,7 @@
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
+import '../home.css'
 
 function SunIcon() {
   return (
@@ -21,30 +23,53 @@ function MoonIcon() {
   )
 }
 
+// ── Update description + details below with real content when ready ──
 const WISDOMS = [
   {
     path: '/bogle',
     badge: 'Investing',
     title: "Bogle's 10 Rules",
-    subtitle: 'The Clash of the Cultures',
-    description: 'Ten timeless principles from the founder of Vanguard. A 3D carousel through the fundamentals of long-term investing.',
+    description: 'Ten timeless principles from the founder of Vanguard — the fundamentals of long-term investing.',
+    // TODO: replace with real extended copy
+    details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.',
     accent: '#c4a55a',
-    rules: ['Reversion to the Mean', 'Time Is Your Friend', 'Buy the Haystack', '+ 7 more'],
+    icon: '📈',
   },
   {
     path: '/index-card',
     badge: 'Personal Finance',
     title: 'The Index Card',
-    subtitle: 'Olen & Pollack',
     description: 'Nine rules that fit on a single index card — everything you actually need to know about personal finance.',
+    // TODO: replace with real extended copy
+    details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque habitant morbi tristique senectus. Netus et malesuada fames ac turpis egestas volutpat.',
     accent: '#5aa5c4',
-    rules: ['Save 10–20%', 'Max your 401(k)', 'Buy index funds', '+ 6 more'],
+    icon: '📇',
   },
 ]
+
+function getColumns(active, total) {
+  return Array.from({ length: total }, (_, i) => (i === active ? '10fr' : '1fr')).join(' ')
+}
 
 export default function Home() {
   const { theme, toggle } = useTheme()
   const navigate = useNavigate()
+  const [activeIndex, setActiveIndex] = useState(0)
+  const listRef = useRef(null)
+  const [articleWidth, setArticleWidth] = useState(400)
+
+  const syncArticleWidth = useCallback(() => {
+    if (!listRef.current) return
+    const items = listRef.current.querySelectorAll('li')
+    const max = Math.max(...[...items].map(li => li.offsetWidth))
+    if (max > 0) setArticleWidth(max)
+  }, [])
+
+  useEffect(() => {
+    syncArticleWidth()
+    window.addEventListener('resize', syncArticleWidth)
+    return () => window.removeEventListener('resize', syncArticleWidth)
+  }, [syncArticleWidth])
 
   return (
     <>
@@ -61,33 +86,50 @@ export default function Home() {
         <p className="header__sub">Timeless principles, beautifully presented</p>
       </header>
 
-      <div className="home-grid">
-        {WISDOMS.map(w => (
-          <button
+      <ul
+        ref={listRef}
+        className="wisdoms-list"
+        style={{ gridTemplateColumns: getColumns(activeIndex, WISDOMS.length) }}
+        onPointerMove={e => {
+          const li = e.target.closest('li[data-index]')
+          if (li) setActiveIndex(Number(li.dataset.index))
+        }}
+      >
+        {WISDOMS.map((w, i) => (
+          <li
             key={w.path}
-            className="wisdom-card"
-            style={{ '--wisdom-accent': w.accent }}
+            data-index={i}
+            data-active={String(i === activeIndex)}
+            className="wisdom-item"
+            style={{ '--item-accent': w.accent }}
             onClick={() => navigate(w.path)}
           >
-            <div className="wisdom-card__badge">{w.badge}</div>
-            <h2 className="wisdom-card__title">{w.title}</h2>
-            <p className="wisdom-card__subtitle">{w.subtitle}</p>
-            <p className="wisdom-card__desc">{w.description}</p>
-            <ul className="wisdom-card__rules">
-              {w.rules.map(r => (
-                <li key={r}>{r}</li>
-              ))}
-            </ul>
-            <div className="wisdom-card__cta">
-              Explore →
-            </div>
-          </button>
+            <article
+              className="wisdom-article"
+              style={{ '--article-width': articleWidth }}
+            >
+              <h3 className="wisdom-title">{w.title}</h3>
+              <span className="wisdom-icon">{w.icon}</span>
+              <p className="wisdom-desc">{w.description}</p>
+              <p className="wisdom-details">{w.details}</p>
+              <span className="wisdom-cta">Explore →</span>
+              <div
+                className="wisdom-bg"
+                style={{ background: `radial-gradient(circle at 80% 20%, ${w.accent}, transparent 70%)` }}
+              />
+            </article>
+          </li>
         ))}
-      </div>
+      </ul>
 
       <footer className="footer">
         <p className="footer__quote">"An investment in knowledge pays the best interest."</p>
         <p className="footer__attr">— Benjamin Franklin</p>
+        <p className="footer__credit">
+          Accordion UI by{' '}
+          <a href="https://codepen.io/jh3y" target="_blank" rel="noopener noreferrer">jh3y</a>
+          {' '}on CodePen
+        </p>
       </footer>
 
       <div className="ground-reflection" />
